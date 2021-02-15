@@ -1,0 +1,599 @@
+# Two people meet each other (Easy) 
+def Meet(x, y, u, v): 
+  
+   
+    if (x < y and u <= v): 
+        return False; 
+    if (x > y and u >= v): 
+        return False;  
+  
+   
+    if (x < y): 
+  
+        x, y = y,x; 
+        u, v = v,u; 
+      
+  
+   
+    while (x >= y):  
+      
+        if (x == y):  
+            return True; 
+          
+        
+        x = x + u;  
+          
+       
+        y = y + v;  
+      
+  
+    return False;  
+  
+  
+# Driver code 
+x = 5; 
+u = 8; 
+y = 4; 
+v = 7; 
+if (Meet(x, y,u, v)): 
+    print("Yes");  
+else: 
+    print("No"); 
+    
+    
+#QUESTION 2 
+Find Majority Element (Medium)
+
+
+def Majorityele(arr, n):
+ 
+    maxCount = 0
+    index = -1  
+    for i in range(n):
+ 
+        count = 0
+        for j in range(n):
+ 
+            if(arr[i] == arr[j]):
+                count += 1
+ 
+       
+        if(count > maxCount):
+ 
+            maxCount = count
+            index = i
+ 
+   
+    if (maxCount > n//2):
+        print(arr[index])
+ 
+    else:
+        print("No Majority Element")
+ 
+ 
+# Driver code
+
+    arr = [1, 1, 2, 1, 3, 5, 1]
+    n = len(arr)
+ 
+    Majorityele(arr, n)
+   
+   
+#QUESTION 3
+ Find Peak Element In Array (Medium)
+ 
+ def Peak(arr, n) : 
+    if (n == 1) :
+      return arr[0]
+    if (arr[0] >= arr[1]) :
+        return 0
+    if (arr[n - 1] >= arr[n - 2]) :
+        return n - 1
+  
+    
+    for i in range(1, n - 1) :
+        if (arr[i] >= arr[i - 1] and arr[i] >= arr[i + 1]) :
+            return i
+             
+# Driver code.
+arr = [ 1, 3, 20, 4, 1, 0 ]
+n = len(arr)
+print("Index is", Peak(arr, n))
+
+#QUESTION 4
+ Find first and last positions of an element in a sorted array (Medium)
+ 
+ def FirstLast(arr, n, x) :
+    first = -1
+    last = -1
+    for i in range(0, n) :
+        if (x != arr[i]) :
+            continue
+        if (first == -1) :
+            first = i
+        last = i
+     
+    if (first != -1) :
+        print( "First Occurrence = ", first, 
+               " \nLast Occurrence = ", last)
+    else :
+        print("not there")
+         
+         
+# Driver code
+arr = [1, 2, 2, 2, 2, 3, 4, 7, 8, 8 ]
+n = len(arr)
+x = 8
+FirstLast(arr, n, x)
+
+
+#QUESTION 5
+ C/C++ Program for Segregate 0s and 1s in an array (Easy)
+ 
+ void zero1(int arr[], int n) 
+{ 
+    int count = 0;  
+  
+    for (int i = 0; i < n; i++) { 
+        if (arr[i] == 0) 
+            count++; 
+    } 
+    for (int i = 0; i < count; i++) 
+        arr[i] = 0; 
+  
+    for (int i = count; i < n; i++) 
+        arr[i] = 1; 
+}
+void print(int arr[], int n) 
+{ 
+    cout << "Array after segregation is "; 
+  
+    for (int i = 0; i < n; i++) 
+        cout << arr[i] << " "; 
+} 
+  
+// Driver function 
+int main() 
+{ 
+    int arr[] = { 0, 1, 0, 1, 1, 1 }; 
+    int n = sizeof(arr); 
+      
+    segregate0and1(arr, n); 
+    print(arr, n); 
+      
+    return 0; 
+}
+
+
+#QUESTION 6
+ Sort 0 1 2 (Medium)
+ 
+ def print(arr, n): 
+    for i in range(n): 
+        print(arr[i],end=" ") 
+  
+def sortArr(arr, n): 
+    c0 = 0
+    c1 = 0
+    c2 = 0
+      
+ 
+    for i in range(n): 
+        if arr[i] == 0: 
+            c0+=1
+          
+        elif arr[i] == 1: 
+            c1+=1
+              
+        elif arr[i] == 2: 
+            c2+=1
+    i = 0
+    while (c0 > 0): 
+        arr[i] = 0
+        i+=1
+        c0-=1
+    while (c1 > 0): 
+        arr[i] = 1
+        i+=1
+        c1-=1
+    while (c2 > 0): 
+        arr[i] = 2
+        i+=1
+        c2-=1
+    print(arr, n) 
+
+# Driver code 
+  
+arr = [0, 1, 1, 0, 1, 2, 1, 2, 0, 0, 0, 1] 
+n = len(arr) 
+  
+sortArr(arr, n) 
+
+
+#QUESTION 7
+ Alternative Sorting (Easy)
+ 
+ def alternateSort(arr, n): 
+  
+    arr.sort()  #built in sort function for sorting the array is used.
+  
+    i = 0
+    j = n-1
+      
+    while (i < j):  
+      
+        print(arr[j], end =" ") 
+        j-= 1
+        print(arr[i], end =" ") 
+        i+= 1 
+    if (n % 2 != 0): 
+        print(arr[i])  
+# Driver code 
+arr = [1, 12, 4, 6, 7, 10]  
+n = len(arr) 
+alternateSort(arr, n) 
+
+
+#QUESTION 8
+
+K smallest Elements (Hard)
+
+void printKSmallestElements(int [] arr, int k) {
+        for(int i = k; i < arr.length; i++) {
+            int max = arr[k -1];
+            int max_position = k - 1;
+            for(int j = k - 2; j >= 0 ; j--) {
+                if(arr[j] > max) {
+                    max = arr[j];
+                    max_position = j;
+                }
+            }
+            int currentElement = arr[i];
+            if(max > currentElement) {
+                int m = max_position;
+                while(m < k - 1) {
+                    arr[m] = arr[m + 1];
+                    m++;
+                }
+                arr[k - 1] = currentElement;
+            }
+        }
+        for(int i = 0; i < k; i++) {
+            System.out.print(arr[i] + "  ");
+        }
+    }
+    int main()
+    {
+     int arr[] = {300, 400, 250, 100, 800};
+        printKSmallestElements(arr, 3);
+    }
+ 
+ #QUESTION 9
+ 
+  Counting Inversions (Hard)
+  
+  def InversionCount(arr, n):
+ 
+    inv_count = 0
+    for i in range(n):
+        for j in range(i + 1, n):
+            if (arr[i] > arr[j]):
+                invc += 1
+ 
+    return invc
+ 
+arr = [1, 20, 6, 4, 5]
+n = len(arr)
+print("Inversion count is ",InversionCount(arr, n))
+
+
+#QUESTION 10
+
+ Trapping Rain Water (Hard)
+
+def rainWater(arr, n):
+	result = 0
+	left_max = 0
+	right_max = 0
+	low = 0
+	high = n-1
+	while(low <= high): 
+	
+		if(arr[low] < arr[high]):
+                        if(arr[low] > left_max):
+				left_max = arr[low]
+			else:
+				result += left_max - arr[low]
+			low+= 1
+		else:
+		        if(arr[high] > right_max):
+				right_max = arr[high]
+			else:
+                                result += right_max - arr[high]
+			high-= 1
+		
+	return result
+
+# Driver program
+arr = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]
+n = len(arr)
+print("water accumulated  ",findWater(arr, n))
+ 
+
+#QUESTION 11
+
+Stock Buy Sell to Maximize Profit
+
+def maxProfit(price, start, end):
+ 
+    if (end <= start):
+        return 0;
+    profit = 0;
+    for i in range(start, end, 1):
+
+        for j in range(i+1, end+1):
+            if (price[j] > price[i]):
+                curr_profit = price[j] - price[i] +\maxProfit(price, start, i - 1)+ \ maxProfit(price, j + 1, end);
+                profit = max(profit, curr_profit);
+ 
+    return profit;
+ price = [100, 180, 260, 310, 40, 535, 695];
+ n = len(price);
+ print(maxProfit(price, 0, n - 1));
+ 
+ 
+ #QUESTION 12
+ 
+  Print a given matrix in the spiral form (Medium)
+  
+  def spiralPrint(m, n, a):
+    k = 0
+    l = 0
+    while (k < m and l < n):
+        for i in range(l, n):
+            print(a[k][i], end=" ")
+        k += 1
+        for i in range(k, m):
+            print(a[i][n - 1], end=" ")
+        n -= 1
+        if (k < m):
+            for i in range(n - 1, (l - 1), -1):
+                print(a[m - 1][i], end=" ")
+            m -= 1
+        if (l < n):
+            for i in range(m - 1, k - 1, -1):
+                print(a[i][l], end=" ")
+            l += 1
+a = [[1, 2, 3, 4, 5, 6],
+     [7, 8, 9, 10, 11, 12],
+     [13, 14, 15, 16, 17, 18]]
+ 
+R = 3
+C = 6
+spiralPrint(R, C, a)
+
+
+#QUESTION 14
+
+Largest Sum Contiguous Subarray (Medium)
+
+int maxSubArraySum(int a[], int size)
+{
+	int max_so_far = max_ending_here = 0;
+
+	for (int i = 0; i < size; i++)
+	{
+		max_ending_here = max_ending_here + a[i];
+		if (max_so_far < max_ending_here)
+			max_so_far = max_ending_here;
+
+		if (max_ending_here < 0)
+			max_ending_here = 0;
+	}
+	return max_so_far;
+}
+int main()
+{
+	int a[] = {-2, -3, 4, -1, -2, 1, 5, -3};
+	int n = sizeof(a);
+	int max_sum = maxSubArraySum(a, n);
+	cout << "Maximum contiguous sum is " << max_sum;
+	return 0;
+}
+
+#Question 15
+
+Minimum Number of Platforms Required for a Railway/Bus Station (Medium)
+
+
+def findPlatform(arr, dep, n):
+    arr.sort() # Sorting using inbuilt function
+    dep.sort() # Sorting using inbuilt function.
+ 
+    plat_needed = 1
+    result = 1
+    i = 1
+    j = 0
+
+    while (i < n and j < n):
+
+        if (arr[i] <= dep[j]):
+            plat_needed += 1
+            i += 1
+        elif (arr[i] > dep[j]):
+            plat_needed -= 1
+            j += 1
+        if (plat_needed > result):
+            result = plat_needed
+    return result 
+arr = [900, 940, 950, 1100, 1500, 1800]
+dep = [910, 1200, 1120, 1130, 1900, 2000]
+n = len(arr)
+print("Minimum Number of Platforms Required = ",findPlatform(arr, dep, n))
+
+#Question 16
+
+Find the Missing Number (Easy)
+
+
+def MissingNo(Arr):
+    n = len(Arr)
+    total = (n + 1)*(n + 2)/2
+    sum_of_A = sum(Arr)
+    return total - sum_of_A
+A = [1, 2, 4, 5, 6]
+miss = MissingNo(Arr)
+print(miss)
+
+
+#Question 17
+Merge two sorted arrays (Easy)
+
+def nextGap(gap): 
+    if (gap <= 1):
+        return 0
+    return (gap // 2) + (gap % 2) 
+def merge(arr1, arr2, n, m): 
+    gap = n + m
+    gap = nextGap(gap)
+    while gap > 0:
+        i = 0
+        while i + gap < n:
+            if (arr1[i] > arr1[i + gap]):
+                arr1[i], arr1[i + gap] = arr1[i + gap], arr1[i]
+            i += 1
+        j = gap - n if gap > n else 0
+        while i < n and j < m:
+            if (arr1[i] > arr2[j]):
+                arr1[i], arr2[j] = arr2[j], arr1[i]
+            i += 1
+            j += 1
+        if (j < m):
+            j = 0
+            while j + gap < m:
+                if (arr2[j] > arr2[j + gap]):
+                    arr2[j], arr2[j + gap] = arr2[j + gap], arr2[j]
+                j += 1
+          gap = nextGap(gap)
+  a1 = [10, 27, 38, 43, 82]
+  a2 = [3, 9]
+  n = len(a1)
+  m = len(a2)
+  merge(a1, a2, n, m)
+  
+  
+ #QUESTION 18
+ 
+ Search an element in a sorted and rotated array (Medium) 
+ 
+ def search (arr, l, h, key): 
+    if l > h: 
+        return -1      
+    mid = (l + h) // 2
+    if arr[mid] == key: 
+        return mid   
+      
+    if arr[l] <= arr[mid]: 
+        if key >= arr[l] and key <= arr[mid]: 
+            return search(arr, l, mid-1, key) 
+        return search(arr, mid + 1, h, key) 
+    if key >= arr[mid] and key <= arr[h]: 
+        return search(a, mid + 1, h, key) 
+    return search(arr, l, mid-1, key) 
+arr = [4, 5, 6, 7, 8, 9, 1, 2, 3] 
+key = 6
+i = search(arr, 0, len(arr)-1, key) 
+if i != -1: 
+    print (i) 
+else: 
+    print ("not found") 
+    
+#QUESTION 19
+
+Create a dynamic array (Medium)
+
+#include<iostream>
+using namespace std;
+int main() {
+   int i,n;
+   cout<<"Enter total number of elements:"<<"\n";
+   cin>>n;
+   int *a = new int(n);
+   cout<<"Enter "<<n<<" elements"<<endl;
+   for(i = 0;i<n;i++) {
+      cin>>a[i];
+   }
+   cout<<"Entered elements are: ";
+   for(i = 0;i<n;i++) {
+      cout<<a[i]<<" ";
+   }
+   cout<<endl;
+   delete (a);
+   return 0;
+}
+
+#QUESTION 20
+
+Find the smallest window in a string containing all characters of another string (Hard)
+
+#include<bits/stdc++.h>
+#define NO_OF_CHARS 256
+using namespace std;
+string findSubString(string S, string T)
+{
+    int Slen = S.length();
+    int Tlen = T.length();
+    if (Slen < Tlen)
+    {
+        cout << "No such window exists";
+        return "";
+    }
+    int S_count[NO_OF_CHARS] = {0};
+    int T_count[NO_OF_CHARS] = {0};
+    for (int i = 0; i < Tlen; i++)
+        T_count[T[i]]++;
+    int start = 0, start_index = -1, min_len = INT_MAX;
+    int count = 0; 
+    for (int i = 0; i < Slen ; i++)
+    {
+        S_count[S[i]]++;
+        if (T_count[S[i]] != 0 &&
+            S_count[S[i]] <= T_count[S[i]] )
+            count++;
+        if (count == Tlen)
+        {
+            while ( S_count[S[start]] > T_count[S[start]]
+                   || T_count[S[start]] == 0)
+            { if (S_count[S[start]] > T_count[S[start]])
+                    S_count[S[start]]--;
+                start++;
+            }
+            int len_window = i - start + 1;
+            if (min_len > len_window)
+            {
+                min_len = len_window;
+                start_index = start;
+            }
+        }
+    }
+    if (start_index == -1)
+    {
+       cout << "No such window exists";
+       return "";
+    }
+    return S.substr(start_index, min_len);
+}
+ 
+int main()
+{
+    string S = "i am a student";
+    string T = "mdn";
+ 
+    cout << "Smallest window is : "<< findSubString(S, T)<<endl;
+    return 0;
+}
+
+
+
+
+    
