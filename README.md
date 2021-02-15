@@ -1,2 +1,2 @@
 # CipherSchools_Assignnment
-Assignments are uploaded
+Solutions of the Assignments are uploaded
