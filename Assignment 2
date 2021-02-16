@@ -1,0 +1,187 @@
+#QUESTION 1
+
+. Fib Number and Factorial using tail recursion (Easy)
+
+ def Fibonacci(n):
+    if n<0:
+        print("Incorrect input")
+    elif n==0:
+        return 0
+    elif n==1:
+        return 1
+    else:
+        return Fibonacci(n-1)+Fibonacci(n-2) 
+print(Fibonacci(11))
+
+
+#QUESTION 2
+
+
+Generate Parenthesis (Easy)
+
+
+def printParenthesis(str, n): 
+    if(n > 0): 
+        _printParenthesis(str, 0, n, 0, 0); 
+    return; 
+def _printParenthesis(str, pos, n,open, close):   
+    if(close == n): 
+        for i in str: 
+            print(i, end = ""); 
+        print(); 
+        return; 
+    else: 
+        if(open > close): 
+            str[pos] = '}'; 
+            _printParenthesis(str, pos + 1, n, open, close + 1); 
+        if(open < n): 
+            str[pos] = '{'; 
+            _printParenthesis(str, pos + 1, n, open + 1, close); 
+n = 5; 
+str = [""] * 2 * n; 
+printParenthesis(str, n); 
+
+
+#QUESTION 3
+
+ Print all possible combinations of the mobile keyboard (Hard)
+ 
+ 
+ #include <iostream>
+#include <string.h>
+using namespace std;
+const char keypad[10][5] = {"", "", "abc", "def", "ghi", "jkl", "mno",
+"pqrs", "tuv", "wxyz"};
+void printWords(int number[], int curr_digit, char output[], int n){
+   int i;
+   if (curr_digit == n){
+      cout<<output<<" ";
+      return ;
+   }
+   for (i=0; i<strlen(keypad[number[curr_digit]]); i++){
+      output[curr_digit] = keypad[number[curr_digit]][i];
+      printWords(number, curr_digit+1, output, n);
+      if (number[curr_digit] == 0 || number[curr_digit] == 1)
+         return;
+   }
+}
+int main(void){
+   int number[] = {6,8,7};
+   cout<<"The output character formed is : \n";
+   int n = sizeof(number)/sizeof(number[0]);
+   char result[n+1];
+   result[n] ='\0';
+   printWords(number, 0, result, n);
+   return 0;
+}
+
+
+#QUESTION 4
+
+
+ Count All possible Decoding (Medium)
+ 
+ 
+ def numDecodings(s: str) -> int:
+    if len(s) == 0
+    or (len(s) == 1
+        and s[0] == '0'):
+        return 0
+    return numDecodingsHelper(s, len(s))
+def numDecodingsHelper(s: str, n: int) -> int:
+    if n == 0 or n == 1:
+        return 1
+    count = 0
+    if s[n-1] > "0":
+        count = numDecodingsHelper(s, n-1)
+    if (s[n - 2] == '1'
+        or (s[n - 2] == '2'
+            and s[n - 1] < '7')):
+        count += numDecodingsHelper(s, n - 2)
+    return count
+digits = "1234"
+print("Count is ", numDecodings(digits))
+
+
+
+#QUESTION 5
+
+. Count Possible Paths (Easy to Medium)
+
+
+def numberOfPaths(p, q): 
+    dp = [1 for i in range(q)] 
+    for i in range(p - 1): 
+        for j in range(1, q): 
+            dp[j] += dp[j - 1] 
+    return dp[q - 1] 
+print(numberOfPaths(3, 3)) 
+
+
+
+#QUESTION 6
+
+ Write a program to print all permutations of a given string (Medium)
+
+def toString(List):
+   return ''.join(List)
+def permute(a, l, r):
+   if l == r:
+      print (toString(a))
+   else:
+      for i in range(l, r + 1):
+         a[l], a[i] = a[i], a[l]
+         permute(a, l + 1, r)
+         a[l], a[i] = a[i], a[l]
+string = "TUT"
+n = len(string)
+a = list(string)
+print("The possible permutations are:",end="\n")
+permute(a, 0, n-1)
+
+
+#QUESTION 7
+
+
+Rat in a maze (Medium)
+
+
+SIZE = 5
+maze = [
+    [0,1,0,1,1],
+    [0,0,0,0,0],
+    [1,0,1,0,1],
+    [0,0,1,0,0],
+    [1,0,0,1,0]
+]
+solution = [[0]*SIZE for _ in range(SIZE)]
+def solvemaze(r, c):
+    if (r==SIZE-1) and (c==SIZE-1):
+        solution[r][c] = 1;
+        return True;
+    if r>=0 and c>=0 and r<SIZE and c<SIZE and solution[r][c] == 0 and maze[r][c] == 0:
+        solution[r][c] = 1
+        if solvemaze(r+1, c):
+            return True
+        if solvemaze(r, c+1):
+            return True
+        if solvemaze(r-1, c):
+            return True
+        if solvemaze(r, c-1):
+            return True
+        solution[r][c] = 0;
+        return False;
+    return 0;
+if(solvemaze(0,0)):
+    for i in solution:
+        print (i)
+else:
+    print ("No solution")
+    
+    
+#QUESTION 8
+
+
+ Subset Sum | Backtracking-4 (Hard)
+ 
+ 
