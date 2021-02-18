@@ -1,0 +1,814 @@
+#QUESTION 1
+
+Reverse a linked list (Recursive /Iterative) (Easy)
+
+
+class Node:
+	def __init__(self, data):
+		self.data = data
+		self.next = None
+class LinkedList:
+	def __init__(self):
+		self.head = None 
+	def reverse(self, head):
+		if head is None or head.next is None:
+			return head
+		rest = self.reverse(head.next)
+		head.next.next = head
+		head.next = None
+		return rest
+	def __str__(self):
+		linkedListStr = ""
+		temp = self.head
+		while temp:
+			linkedListStr = (linkedListStr +
+							str(temp.data) + " ")
+			temp = temp.next
+		return linkedListStr
+	def push(self, data):
+		temp = Node(data)
+		temp.next = self.head
+		self.head = temp
+linkedList = LinkedList()
+linkedList.push(20)
+linkedList.push(4)
+linkedList.push(15)
+linkedList.push(85)
+print("Given linked list")
+print(linkedList)
+linkedList.head = linkedList.reverse(linkedList.head)
+print("Reversed linked list")
+print(linkedList)
+
+
+#QUESTION 2
+
+Palindromic Linked List (Easy)
+
+class ListNode:
+   def __init__(self, data, next = None):
+      self.data = data
+      self.next = next
+def make_list(elements):
+   head = ListNode(elements[0])
+   for element in elements[1:]:
+      ptr = head
+      while ptr.next:
+         ptr = ptr.next
+      ptr.next = ListNode(element)
+   return head
+class Solution(object):
+   def isPalindrome(self, head):
+      fast,slow = head,head
+      rev = None
+      flag = 1
+      if not head:
+         return True
+      while fast and fast.next:
+         if not fast.next.next:
+            flag = 0
+            break
+         fast = fast.next.next
+         temp = slow
+         slow = slow.next
+         temp.next = rev
+         rev = temp
+      #print(fast.val)
+      fast = slow.next
+      slow.next = rev
+      if flag:
+         slow = slow.next
+      while fast and slow:
+         if fast.data != slow.data:
+            return False
+         fast = fast.next
+         slow = slow.next
+      return True
+head = make_list([1,2,3,2,1])
+ob1 = Solution()
+print(ob1.isPalindrome(head))
+
+#QUESTION 3
+
+Add two numbers in the linked list (Medium)
+
+class Node:
+    def __init__(self, x, nextNode = None):
+        self.val = x
+        self.next = nextNode
+ 
+def printList(l):
+    value = []
+    while(l):
+        value.append(l.val)
+        l = l.next
+    print(' -> '.join(map(str, value)))
+ 
+def addTwoNumbers(l1, l2):
+    """
+    :type l1: Node
+    :type l2: Node
+    :rtype: Node
+    """
+    sum = l1.val + l2.val
+    carry = int(sum / 10)
+ 
+    l3 = Node(sum%10)
+    p1 = l1.next
+    p2 = l2.next
+    p3 = l3
+    while(p1 != None or p2 != None):
+        sum = carry + ( p1.val if p1 else 0) + ( p2.val if p2 else 0)
+        carry = int(sum/10)
+        p3.next = Node(sum % 10)
+        p3 = p3.next
+        p1 = p1.next if p1 else None
+        p2 = p2.next if p2 else None
+ 
+    if(carry > 0):
+        p3.next = Node(carry)
+ 
+    return l3
+l1 = Node(9, Node(8, Node(7)))
+printList(l1)
+l2 = Node(8, Node(7, Node(4)))
+printList(l2)
+l3 = addTwoNumbers(l1, l2)
+printList(l3)   
+print()   
+l1 = Node(2, Node(4, Node(3)))
+printList(l1)
+
+l2 = Node(5, Node(6, Node(4)))
+printList(l2)
+l3 = addTwoNumbers(l1, l2)
+printList(l3)
+
+
+#QUESTION 4
+
+Detect and remove a loop in the linked list (Medium)
+
+class ListNode:
+	def __init__(self, x):
+    	self.val = x
+    	self.next = None
+def removeLoop(head: ListNode) -> bool:
+	ptr1 = head
+	ptr2 = head
+	flag = False
+	while ptr2 != None and ptr2.next != None:
+    	ptr1 = ptr1.next
+    	ptr2 = ptr2.next.next
+    	if ptr1 == ptr2:
+        	flag = True
+        	break
+	if flag:
+    	ptr1 = head
+    	while ptr1.next != ptr2.next:
+        	ptr1 = ptr1.next
+        	ptr2 = ptr2.next
+    	ptr2.next = None
+	return head
+
+if __name__ == '__main__':
+	head = ListNode(2)
+	head.next = l1 = ListNode(8)
+	l1.next = l2 = ListNode(3)
+	l2.next = l3 = ListNode(5)
+	l3.next = l4 = ListNode(10)
+	l4.next = l2
+	removeLoop(head)
+	while head != None:
+    	print(f'{head.val}->',end="")
+    	head = head.next;
+	print("NULL")
+  
+  
+  #QUESTION 5
+  
+  Intersection point in the linked list (Easy to Medium)
+  
+  class ListNode:
+   def __init__(self, data, next = None):
+      self.data = data
+      self.next = next
+class Solution(object):
+   def getIntersectionNode(self, headA, headB):
+      """
+      :type head1, head1: ListNode
+      :rtype: ListNode
+      """
+      dict = {}
+      while headA:
+         dict[headA]=1
+         headA = headA.next
+      while headB:
+         if headB in dict:
+            return headB
+         headB = headB.next
+      return None
+headA = ListNode(4)
+headB = ListNode(5)
+Intersect = ListNode(8, ListNode(4, ListNode(5)))
+headA.next = ListNode(1, Intersect)
+headB.next = ListNode(0, ListNode(1, Intersect))
+ob1 = Solution()
+op = ob1.getIntersectionNode(headA, headB)
+print("Intersection:",op.data)
+
+
+#QUESTION 6
+
+Merge k Sorted Linked Lists (Easy to Medium)
+
+
+class ListNode:
+   def __init__(self, data, next = None):
+      self.val = data
+      self.next = next
+def make_list(elements):
+   head = ListNode(elements[0])
+   for element in elements[1:]:
+      ptr = head
+      while ptr.next:
+         ptr = ptr.next
+      ptr.next = ListNode(element)
+   return head
+def print_list(head):
+   ptr = head
+   print('[', end = "")
+   while ptr:
+      print(ptr.val, end = ", ")
+      ptr = ptr.next
+   print(']')
+class Heap:
+   def __init__(self):
+      self.arr = []
+   def print_heap(self):
+      res = " "
+      for i in self.arr:
+         res += str(i.val) + " "
+      print(res)
+   def getVal(self,i):
+      return self.arr[i].val
+   def parent(self,i):
+      return (i-1)//2
+   def left(self,i):
+      return (2*i + 1)
+   def right(self,i):
+      return (2*i + 2)
+   def insert(self,value):
+      self.arr.append(value)
+      n = len(self.arr)-1
+      i = n
+      while i != 0 and
+self.arr[i].val<self.arr[self.parent(i)].val:
+         self.arr[i],self.arr[self.parent(i)] = self.arr[self.parent(i)],self.arr[i]
+         i = self.parent(i)
+   def heapify(self,i):
+      left = self.left(i)
+      right = self.right(i)
+      smallest = i
+      n= len(self.arr)
+      if left<n and self.getVal(left)<self.getVal(smallest): smallest = left
+      if right <n and self.getVal(right)<self.getVal(smallest): smallest = right
+      if smallest!=i:
+         self.arr[i],self.arr[smallest] = self.arr[smallest],self.arr[i]
+         self.heapify(smallest)
+   def extractMin(self):
+      n = len(self.arr)
+      if n==0:
+         return '#'
+      if n== 1:
+         temp =self.arr[0]
+         self.arr.pop()
+         return temp
+      root = self.arr[0]
+      self.arr[0] = self.arr[-1]
+      self.arr.pop()
+      self.heapify(0)
+      return root
+class Solution(object):
+   def mergeKLists(self, lists):
+      heap = Heap()
+      for i in lists:
+         if i:
+            heap.insert(i)
+      res = None
+      res_next = None
+      while True:
+         temp = heap.extractMin()
+         if temp == "#":
+            return res
+         if not res:
+            res = temp
+            res_next = temp
+            temp = temp.next
+            if temp:
+               heap.insert(temp)
+            res.next = None
+      else:
+         res_next.next = temp
+         temp = temp.next
+         res_next=res_next.next
+         if temp:
+            heap.insert(temp)
+         res_next.next = None
+ob = Solution()
+lists = [[1,4,5],[1,3,4],[2,6]]
+lls = []
+for ll in lists:
+   l = make_list(ll)
+   lls.append(l)
+print_list(ob.mergeKLists(lls))
+
+
+#QUESTION 7
+
+
+ Arrangement of Odd And Even Nodes In Linked List (Medium)
+
+class ListNode:
+   def __init__(self, data, next = None):
+      self.val = data
+      self.next = next
+def make_list(elements):
+   head = ListNode(elements[0])
+   for element in elements[1:]:
+      ptr = head
+      while ptr.next:
+         ptr = ptr.next
+      ptr.next = ListNode(element)
+   return head
+def print_list(head):
+   ptr = head
+   print('[', end = "")
+   while ptr:
+      print(ptr.val, end = ", ")
+      ptr = ptr.next
+   print(']')
+class Solution(object):
+   def oddEvenList(self, head):
+      if head == None or head.next ==None:
+         return head
+      head1=head
+      head2,head2_beg= head.next,head.next
+      while head2.next!= None and head2.next.next!= None:
+         head1.next = head2.next
+         head2.next = head2.next.next
+         head1 = head1.next
+         head2 = head2.next
+      if head2.next!=None:
+         head1.next = head2.next
+         head1 = head1.next
+      head1.next = head2_beg
+      head2.next = None
+      return head
+ob1 = Solution()
+head = make_list([1,22,13,14,25])
+print_list(ob1.oddEvenList(head))
+
+#QUESTION 8
+
+Remove all occurrences of duplicates from a sorted Linked List (Medium)
+
+
+#include <bits/stdc++.h>
+using namespace std;
+struct LL{
+  int data;
+  LL *next;  
+};
+void insertAtBeginning(struct LL**head,int dataToBeInserted)
+{
+  struct LL*temp=*head,*curr=new LL;
+      curr->data=dataToBeInserted;
+      curr->next=NULL;
+  if(*head==NULL)
+      *head=curr;
+    
+  else
+    {
+      curr->next=*head;
+      *head=curr;
+    }
+    
+    //O(1) constant time
+}
+void removeDuplicatesSorted(struct LL ** head)
+{
+    
+    struct LL* curr = *head , * temp; 
+   
+    if (curr == NULL) 
+       return; 
+ 
+    while (curr->next != NULL)  //Traverse till end
+    {
+       if (curr->data == curr->next->data)  //if data is same then advance the pointer to next of next
+       {            
+           temp = curr->next->next;
+           delete(curr->next);
+           curr->next = temp;  
+       }
+       else  //move ahead if data is not equal
+          curr = curr->next; 
+    }
+  
+}
+void display(struct LL**head)
+{
+  struct LL*temp=*head;
+  while(temp!=NULL)
+    {
+      if(temp->next!=NULL)
+      cout<data<<" ->";
+      else
+      cout<data;
+      
+      temp=temp->next; //move to next node
+    }
+    //O(number of nodes)
+  cout<<endl;
+}
+int main()
+{
+  
+  struct LL *head = NULL; //initial list has no elements
+  insertAtBeginning(&head,23);
+  insertAtBeginning(&head,23);
+  insertAtBeginning(&head,23);
+  insertAtBeginning(&head,49);
+  insertAtBeginning(&head,49);
+  insertAtBeginning(&head,49);
+  insertAtBeginning(&head,49);
+  insertAtBeginning(&head,73);
+  insertAtBeginning(&head,73);
+  insertAtBeginning(&head,115);
+  insertAtBeginning(&head,115);
+  insertAtBeginning(&head,115);
+  insertAtBeginning(&head,115);
+  insertAtBeginning(&head,162);
+  insertAtBeginning(&head,211);
+  insertAtBeginning(&head,211);
+  insertAtBeginning(&head,211);
+  insertAtBeginning(&head,211);
+  insertAtBeginning(&head,211);
+  insertAtBeginning(&head,716);
+  insertAtBeginning(&head,982); 
+  insertAtBeginning(&head,982);
+  insertAtBeginning(&head,982);
+  insertAtBeginning(&head,982);
+  
+  cout<<"\nCurrent List is :-\n";
+  display(&head);
+  
+  removeDuplicatesSorted(&head);
+  
+  cout<<"\nAfter removing duplicates from sorted given list the list becomes :-\n";
+  display(&head);
+  
+  return 0;
+}
+
+
+#QUESTION 9
+
+Merge two sorted linked lists (Easy)
+
+def merge_sorted(head1, head2):
+  if head1 == None:
+    return head2
+  elif head2 == None:
+    return head1
+
+  mergedHead = None;
+  if head1.data <= head2.data:
+    mergedHead = head1
+    head1 = head1.next
+  else:
+    mergedHead = head2
+    head2 = head2.next
+
+  mergedTail = mergedHead
+  
+  while head1 != None and head2 != None:
+    temp = None
+    if head1.data <= head2.data:
+      temp = head1
+      head1 = head1.next
+    else:
+      temp = head2
+      head2 = head2.next
+
+    mergedTail.next = temp
+    mergedTail = temp
+
+  if head1 != None:
+    mergedTail.next = head1
+  elif head2 != None:
+    mergedTail.next = head2
+
+  return mergedHead
+
+
+array1 = [2, 3, 5, 6]
+array2 = [1, 4, 10]
+list_head1 = create_linked_list(array1)
+print("Original1:")
+display (list_head1)
+list_head2 = create_linked_list(array2)
+print("\nOriginal2:")
+display (list_head2)
+new_head = merge_sorted(list_head1, list_head2)
+
+print("\nMerged:")
+display(new_head)
+
+
+#QUESTION 10
+
+ Reverse Linked List in K groups (Medium)
+ 
+ class Node:
+    def __init__(self, data=None, next=None):
+        self.data = data
+        self.next = next
+ 
+    # Helper function to print linked list starting from the current node
+    def print(self):
+ 
+        ptr = self
+        while ptr:
+            print(ptr.data, end=" —> ")
+            ptr = ptr.next
+ 
+        print("None")
+ 
+ 
+# Function to reverse every group of `k` nodes in a given linked list
+def reverseInGroups(head, k):
+ 
+    # base case
+    if head is None:
+        return None
+    current = head
+    prev = None
+    count = 0
+    while current and count < k:
+ 
+        count = count + 1
+        next = current.next
+        current.next = prev
+        prev = current
+        current = next
+    head.next = reverseInGroups(current, k)
+    return prev
+ 
+ 
+if __name__ == '__main__':
+ 
+    head = None
+    for i in reversed(range(8)):
+        head = Node(i + 1, head)
+ 
+    head = reverseInGroups(head, 3)
+    head.print()
+    
+    
+#QUESTION 11
+
+ Clone with Linked With Random Pointers (Medium to Hard)
+ 
+ class Node:
+    def __init__(self, data, next=None, random=None):
+        self.data = data
+        self.next = next
+        self.random = random
+def traverse(head):
+    while head:
+        if head.random:
+            print(head.data, f"({head.random.data})", end=" —> ")
+        else:
+            print(head.data, "(X)", end=" —> ")
+        head = head.next
+    print("null")
+def cloneLinkedList(head):
+    curr = head
+    while curr:
+        next = curr.next
+        dup = Node(curr.data)
+        curr.next = dup
+        dup.next = next
+        curr = next
+    curr = head
+    while curr:
+        if curr.random:
+            curr.next.random = curr.random.next
+        curr = curr.next.next
+    dummy = Node(-1)
+    tail = dummy
+    curr = head
+    while curr:
+        next = curr.next.next
+        dup = curr.next
+        tail.next = dup
+        tail = dup
+        curr.next = next
+        curr = next
+    return dummy.next
+if __name__ == '__main__':
+ 
+    head = Node(1)
+    head.next = Node(2)
+    head.next.next = Node(3)
+    head.next.next.next = Node(4)
+    head.next.next.next.next = Node(5)
+    head.random = head.next.next.next
+    head.next.next.random = head.next
+    print("Original linked list:")
+    traverse(head)
+    clone = cloneLinkedList(head)
+    print("\nCloned linked list:")
+    traverse(clone)
+    
+#QUESTION 12
+
+
+ Reorder Linked List (Hard)
+ 
+ 
+#include <bits/stdc++.h>
+using namespace std;
+struct Node {
+	int data;
+	struct Node* next;
+};
+Node* newNode(int key)
+{
+	Node* temp = new Node;
+	temp->data = key;
+	temp->next = NULL;
+	return temp;
+}
+void reverselist(Node** head)
+{
+	Node *prev = NULL, *curr = *head, *next;
+	while (curr) {
+		next = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = next;
+	}
+	*head = prev;
+}
+void printlist(Node* head)
+{
+	while (head != NULL) {
+		cout << head->data << " ";
+		if (head->next)
+			cout << "-> ";
+		head = head->next;
+	}
+	cout << endl;}
+void rearrange(Node** head)
+{
+	Node *slow = *head, *fast = slow->next;
+	while (fast && fast->next) {
+		slow = slow->next;
+		fast = fast->next->next;
+	}
+	Node* head1 = *head;
+	Node* head2 = slow->next;
+	slow->next = NULL;
+	reverselist(&head2);
+	*head = newNode(0);
+	Node* curr = *head;
+	while (head1 || head2) {
+		if (head1) {
+			curr->next = head1;
+			curr = curr->next;
+			head1 = head1->next;
+		}
+		if (head2) {
+			curr->next = head2;
+			curr = curr->next;
+			head2 = head2->next;
+		}
+	}
+	*head = (*head)->next;
+}
+int main()
+{
+	Node* head = newNode(1);
+	head->next = newNode(2);
+	head->next->next = newNode(3);
+	head->next->next->next = newNode(4);
+	head->next->next->next->next = newNode(5);
+
+	printlist(head); 
+	rearrange(&head); 
+	printlist(head); 
+	return 0;
+}
+
+
+#QUESTION 13
+
+ Sort a linked list (Hard)
+ 
+ 
+ class Node:
+    def __init__(self, data=None, next=None):
+        self.data = data
+        self.next = next
+def printList(head):
+    ptr = head
+    while ptr:
+        print(ptr.data, end=" —> ")
+        ptr = ptr.next
+    print("None")
+def sortedInsert(head, newNode):
+    dummy = Node()
+    current = dummy
+    dummy.next = head
+    while current.next and current.next.data < newNode.data:
+        current = current.next
+    newNode.next = current.next
+    current.next = newNode
+    return dummy.next
+def insertSort(head):
+    result = None       
+    current = head     
+    while current:
+        next = current.next
+        result = sortedInsert(result, current)
+        current = next
+    return result 
+if __name__ == '__main__':
+    keys = [6, 3, 4, 8, 2, 9]
+    head = None
+    for i in reversed(range(len(keys))):
+        head = Node(keys[i], head)
+    head = insertSort(head)
+    printList(head)
+    
+    
+#QUESTION 14
+
+Delete Node in linked List (Easy)
+
+class Node: 
+    def __init__(self, data): 
+        self.data = data 
+        self.next = None
+class LinkedList: 
+    def __init__(self): 
+        self.head = None
+    def push(self, new_data): 
+        new_node = Node(new_data) 
+        new_node.next = self.head 
+        self.head = new_node 
+    def deleteNode(self, position): 
+        if self.head == None: 
+            return 
+        temp = self.head 
+        if position == 0: 
+            self.head = temp.next
+            temp = None
+            return  
+        for i in range(position -1 ): 
+            temp = temp.next
+            if temp is None: 
+                break
+        if temp is None: 
+            return 
+        if temp.next is None: 
+            return 
+        next = temp.next.next
+        temp.next = None  
+        temp.next = next 
+    def printList(self): 
+        temp = self.head 
+        while(temp): 
+            print " %d " %(temp.data), 
+            temp = temp.next
+llist = LinkedList() 
+llist.push(7) 
+llist.push(1) 
+llist.push(3) 
+llist.push(2) 
+llist.push(8) 
+print "Created Linked List: "
+llist.printList() 
+llist.deleteNode(4) 
+print "\nLinked List after Deletion at position 4: "
+llist.printList() 
+
+
+
+
+
+
+
