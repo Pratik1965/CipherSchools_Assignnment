@@ -1,0 +1,458 @@
+#Question 2
+
+Get min elements from the stack in constant time. (Medium to Hard)
+  
+class MinStack:
+    def __init__(self):
+        self.s = deque()
+        self.min = None
+    def push(self, x):
+        if not self.s:
+            self.s.append(x)
+            self.min = x
+        elif x > self.min:
+            self.s.append(x)
+        else:
+            self.s.append(2*x - self.min)
+            self.min = x
+    def pop(self):
+        if not self.s:
+            self.print("Stack underflow!!")
+        top = self.s[-1]
+        if top < self.min:
+            self.min = 2*self.min - top
+        self.s.pop()
+    def minimum(self):
+        return self.min
+if __name__ == '__main__':
+ 
+    s = MinStack()
+ 
+    s.push(6)
+    print(s.minimum())
+ 
+    s.push(7)
+    print(s.minimum())
+ 
+    s.push(5)
+    print(s.minimum())
+ 
+    s.push(3)
+    print(s.minimum())
+ 
+    s.pop()
+    print(s.minimum())
+ 
+    s.pop()
+    print(s.minimum())
+    
+    
+#QUESTION 3
+
+Reverse the stack/queue (Medium)
+
+def insertAtBottom(stack, item): 
+	if isEmpty(stack): 
+		push(stack, item) 
+	else: 
+		temp = pop(stack) 
+		insertAtBottom(stack, item) 
+		push(stack, temp)
+def reverse(stack): 
+	if not isEmpty(stack): 
+		temp = pop(stack) 
+		reverse(stack) 
+		insertAtBottom(stack, temp) 
+def createStack(): 
+	stack = [] 
+	return stack 
+def isEmpty( stack ): 
+	return len(stack) == 0
+def push( stack, item ): 
+	stack.append( item ) 
+def pop( stack ): 
+	if(isEmpty( stack )): 
+		print("Stack Underflow ") 
+		exit(1) 
+	return stack.pop() 
+def prints(stack): 
+	for i in range(len(stack)-1, -1, -1): 
+		print(stack[i], end = ' ') 
+	print()
+stack = createStack() 
+push( stack, str(4) ) 
+push( stack, str(3) ) 
+push( stack, str(2) ) 
+push( stack, str(1) ) 
+print("Original Stack ") 
+prints(stack) 
+reverse(stack) 
+print("Reversed Stack ") 
+prints(stack) 
+
+#QUESTION 4
+
+Sort the stack/queue (Medium)
+
+
+class Queue: 
+
+	def __init__(self): 
+		self.queue = [] 
+	def put(self, item): 
+		self.queue.append(item) 
+	def get(self): 
+		if len(self.queue) < 1: 
+			return None
+		return self.queue.pop(0) 
+	def front(self): 
+		return self.queue[0]
+	def size(self): 
+		return len(self.queue) 
+	def empty(self): 
+		return not(len(self.queue)) 
+def FrontToLast(q, qsize) : 
+	if qsize <= 0: 
+		return
+	q.put(q.get())  
+	FrontToLast(q, qsize - 1) 
+def pushInQueue(q, temp, qsize) : 
+	if q.empty() or qsize == 0: 
+		q.put(temp) 
+		return
+	elif temp <= q.front() :  
+		q.put(temp)  
+		FrontToLast(q, qsize) 
+
+	else :  
+		q.put(q.get()) 
+		pushInQueue(q, temp, qsize - 1)
+def sortQueue(q): 
+	if q.empty(): 
+		return
+	temp = q.get()  
+	sortQueue(q)  
+	pushInQueue(q, temp, q.size())  
+qu = Queue() 
+qu.put(10) 
+qu.put(7) 
+qu.put(16) 
+qu.put(9) 
+qu.put(20) 
+qu.put(5)  
+sortQueue(qu) 
+while not qu.empty(): 
+	print(qu.get(), end = ' ') 
+
+
+#QUESTION 5
+
+Implement Deque (Medium)
+
+
+class Dequeue:
+    def __init__(self):
+        self.items = []
+ 
+    def is_empty(self):
+        return self.items == []
+ 
+    def append(self, data):
+        self.items.append(data)
+ 
+    def append_left(self, data):
+        self.items.insert(0, data)
+ 
+    def pop(self):
+        return self.items.pop()
+ 
+    def pop_left(self):
+        return self.items.pop(0)
+ 
+ 
+q = Dequeue()
+print('Menu')
+print('append <value>')
+print('appendleft <value>')
+print('pop')
+print('popleft')
+print('quit')
+ 
+while True:
+    do = input('What would you like to do? ').split()
+ 
+    operation = do[0].strip().lower()
+    if operation == 'append':
+        q.append(int(do[1]))
+    elif operation == 'appendleft':
+        q.append_left(int(do[1]))
+    elif operation == 'pop':
+        if q.is_empty():
+            print('Dequeue is empty.')
+        else:
+            print('Popped value from right: ', q.pop())
+    elif operation == 'popleft':
+        if q.is_empty():
+            print('Dequeue is empty.')
+        else:
+            print('Popped value from left: ', q.pop_left())
+    elif operation == 'quit':
+        break
+        
+        
+#QUESTION 6
+
+Print the largest element in every k window (Medium to Hard)
+
+
+using namespace std;
+
+void find_max(queue<int> q)
+{
+	int max = 0;
+	while (!q.empty())
+	{
+		if (q.front() > max)
+			max = q.front();
+		q.pop();
+	}
+
+	cout << max << " ";
+	return;
+}
+void window_max(int arr[], int size, int window_s)
+{
+	queue<int> q;
+
+	cout << "\nMaximun in each window : ";
+
+	for (int i = 0; i < size; i++)
+	{
+		if (i < window_s) 
+		{
+			q.push(arr[i]);
+		}
+		else
+		{
+			find_max(q);
+			q.pop();
+			q.push(arr[i]);
+		}
+	}
+	find_max(q);
+
+	return;
+}
+int main()
+{
+	int arr[] = {1, 2, 3, 1, 4, 5, 2, 3, 6};
+	int size = 9; 
+	int window_s = 3;
+	window_max(arr, size, window_s);
+	return 0;
+}
+
+
+
+#QUESTION 7
+
+
+Largest Histogram  (Hard) 
+
+class Solution:
+    def largestRectangleArea(self, height):
+        increasing, area, i = [], 0, 0
+        while i <= len(height):
+            if not increasing or (i < len(height) and height[i] > height[increasing[-1]]):
+                increasing.append(i)
+                i += 1
+            else:
+                last = increasing.pop()
+                if not increasing:
+                    area = max(area, height[last] * i)
+                else:
+                    area = max(area, height[last] * (i - increasing[-1] - 1 ))
+        return area
+
+if __name__ == "__main__":
+    print Solution().largestRectangleArea([2, 0, 2])
+    print Solution().largestRectangleArea([2, 1, 5, 6, 2, 3])
+    
+
+#QUESTION 8
+
+
+Balanced Parenthesis (Medium)
+
+
+def BalancedBrackets(Str):
+    stack = []
+    for char in Str:
+        if char == '{' or char == '(' or char == '[':
+            stack.append(char) 
+        elif char == '}' or char == ')' or char == ']':
+            if len(stack) == 0:
+                return False
+            top_element = stack.pop()
+            if not Compare(top_element, char):
+                return False 
+    if len(stack) != 0:
+        return False 
+    return True 
+def Compare(opening, closing):
+    if opening == '(' and closing == ')':
+        return True
+    if opening == '[' and closing == ']':
+        return True
+    if opening == '{' and closing == '}':
+        return True  
+    return False
+print(BalancedBrackets("{123(456[.768])}"))
+
+
+
+#QUESTION 9
+
+
+ Next Greater Element in Array (Medium)
+
+
+using namespace std;
+void findnextgreater(int arr[], int n) {
+    int i;
+    stack<int>s;
+    s.push(arr[0]);
+    for(i = 1; i < n; i++){
+        while(!s.empty() && s.top() < arr[i]) {
+            cout<<arr[i]<<" ";
+            s.pop();
+        }
+        s.push(arr[i]);
+    }
+    while(!s.empty()) {
+        cout<<"-1"<<" ";
+        s.pop();
+    }
+}
+
+
+
+#QUESTION 10
+
+
+ Implement (stack/queue) using (queue/stack) (Easy to medium)
+
+class Stack:
+    def __init__(self):
+        self.q = Queue()
+ 
+    def is_empty(self):
+        return self.q.is_empty()
+ 
+    def push(self, data):
+        self.q.enqueue(data)
+ 
+    def pop(self):
+        for _ in range(self.q.get_size() - 1):
+            dequeued = self.q.dequeue()
+            self.q.enqueue(dequeued)
+        return self.q.dequeue()
+ 
+ 
+class Queue:
+    def __init__(self):
+        self.items = []
+        self.size = 0
+ 
+    def is_empty(self):
+        return self.items == []
+ 
+    def enqueue(self, data):
+        self.size += 1
+        self.items.append(data)
+ 
+    def dequeue(self):
+        self.size -= 1
+        return self.items.pop(0)
+ 
+    def get_size(self):
+        return self.size
+ 
+ 
+s = Stack()
+ 
+print('Menu')
+print('push <value>')
+print('pop')
+print('quit')
+ 
+while True:
+    do = input('What would you like to do? ').split()
+ 
+    operation = do[0].strip().lower()
+    if operation == 'push':
+        s.push(int(do[1]))
+    elif operation == 'pop':
+        if s.is_empty():
+            print('Stack is empty.')
+        else:
+            print('Popped value: ', s.pop())
+    elif operation == 'quit':
+        break
+        
+
+#QUESTION 11
+
+
+Detect Duplicate Parenthesis (Easy to medium)
+
+
+def duplicateparenthesis(exp):
+ 
+    if len(exp) <= 3:
+        return False
+    stack = deque()
+    for c in exp:
+        if c != ')':
+            stack.append(c)
+        else:
+            if stack[-1] == '(':
+                return True
+            while stack[-1] != '(':
+                stack.pop()
+            stack.pop()
+    return False
+ 
+ 
+if __name__ == '__main__':
+ 
+    exp = "((x+y))"
+ 
+    if duplicateparenthesis(exp):
+        print("The expression has duplicate parenthesis.")
+    else:
+        print("The expression does not have duplicate parenthesis")
+ 
+
+
+#QUESTION 12
+
+
+Nearest Smaller Number in Array (Medium)
+
+
+def printNSE(arr):
+ 
+    for i in range(0, len(arr), 1):
+ 
+        next = -1
+        for j in range(i + 1, len(arr), 1):
+            if arr[i] > arr[j]:
+                next = arr[j]
+                break
+             
+        print(str(arr[i]) + " -- " + str(next))
+arr = [11, 13, 21, 3]
+printNSE(arr)
+ 
+
