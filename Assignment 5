@@ -1,0 +1,633 @@
+#QUESTION 1
+Implement traversals - Inorder, Preorder, PostOrder, LevelOrder (Code All 4 traversals)
+
+class Node: 
+    def __init__(self,key): 
+        self.left = None
+        self.right = None
+        self.val = key 
+def printInorder(root): 
+    if root:  
+        printInorder(root.left)  
+        print(root.val) 
+        printInorder(root.right)  
+def printPostorder(root):   
+    if root: 
+        printPostorder(root.left)  
+        printPostorder(root.right) 
+        print(root.val) 
+def printPreorder(root): 
+    if root: 
+        print(root.val)
+        printPreorder(root.left) 
+        printPreorder(root.right)  
+root = Node(1) 
+root.left      = Node(2) 
+root.right     = Node(3) 
+root.left.left  = Node(4) 
+root.left.right  = Node(5) 
+print "Preorder traversal of binary tree is"
+printPreorder(root) 
+  
+print "\nInorder traversal of binary tree is"
+printInorder(root) 
+  
+print "\nPostorder traversal of binary tree is"
+printPostorder(root)
+
+
+
+class Node:
+    def __init__(self, key):
+        self.data = key 
+        self.left = None
+        self.right = None
+def printLevelOrder(root):
+    h = height(root)
+    for i in range(1, h+1):
+        printGivenLevel(root, i)
+def printGivenLevel(root , level):
+    if root is None:
+        return
+    if level == 1:
+        print(root.data,end=" ")
+    elif level > 1 :
+        printGivenLevel(root.left , level-1)
+        printGivenLevel(root.right , level-1)
+def height(node):
+    if node is None:
+        return 0
+    else :
+        lheight = height(node.left)
+        rheight = height(node.right)
+        if lheight > rheight :
+            return lheight+1
+        else:
+            return rheight+1
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+print("Level order traversal of binary tree is -")
+printLevelOrder(root)
+
+
+#QUESTION 3
+
+
+ Construct tree from inorder and preorder traversal
+ 
+ 
+ class Node:
+    def __init__(self, data, left=None, right=None):
+        self.data = data
+        self.left = left
+        self.right = right
+def inorderTraversal(root):
+    if root is None:
+        return
+    inorderTraversal(root.left)
+    print(root.data, end=' ')
+    inorderTraversal(root.right)
+def preorderTraversal(root):
+    if root is None:
+        return
+    print(root.data, end=' ')
+    preorderTraversal(root.left)
+    preorderTraversal(root.right)
+def construct(start, end, preorder, pIndex, dict):
+    if start > end:
+        return None, pIndex
+    root = Node(preorder[pIndex])
+    pIndex = pIndex + 1
+    index = dict[root.data]
+    root.left, pIndex = construct(start, index - 1, preorder, pIndex, dict)
+    root.right, pIndex = construct(index + 1, end, preorder, pIndex, dict)
+    return root, pIndex
+def constructTree(inorder, preorder):
+    dict = {}
+    for i, e in enumerate(inorder):
+        dict[e] = i
+    pIndex = 0
+    return construct(0, len(inorder) - 1, preorder, pIndex, dict)[0] 
+if __name__ == '__main__':
+    inorder = [4, 2, 1, 7, 5, 8, 3, 6]
+    preorder = [1, 2, 4, 3, 5, 7, 8, 6]
+    root = constructTree(inorder, preorder)
+    print("The inorder traversal is ", end='')
+    inorderTraversal(root)
+    print("\nThe preorder traversal is ", end='')
+    preorderTraversal(root)
+ 
+ 
+
+#QUESTION 4
+
+ LCA of Binary Tree 
+ 
+
+class Node:
+	def __init__(self, key):
+		self.key = key 
+		self.left = None
+		self.right = None
+def findLCA(root, n1, n2):
+	if root is None:
+		return None
+	if root.key == n1 or root.key == n2:
+		return root 
+	left_lca = findLCA(root.left, n1, n2) 
+	right_lca = findLCA(root.right, n1, n2)
+	if left_lca and right_lca:
+		return root 
+	return left_lca if left_lca is not None else right_lca
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+root.right.left = Node(6)
+root.right.right = Node(7)
+print "LCA(4,5) = ", findLCA(root, 4, 5).key
+print "LCA(4,6) = ", findLCA(root, 4, 6).key
+print "LCA(3,4) = ", findLCA(root, 3, 4).key
+print "LCA(2,4) = ", findLCA(root, 2, 4).key
+
+
+#QUESTION 5
+
+
+ Diameter of Binary Tree
+
+class Node:
+    def __init__(self, data, left=None, right=None):
+        self.data = data
+        self.left = left
+        self.right = right
+ 
+def getDiameter(root, diameter):
+    if root is None:
+        return 0, diameter
+    left_height, diameter = getDiameter(root.left, diameter)
+    right_height, diameter = getDiameter(root.right, diameter)
+    max_diameter = left_height + right_height + 1
+    diameter = max(diameter, max_diameter)
+    return max(left_height, right_height) + 1, diameter
+ 
+ 
+def getBTDiameter(root):
+ 
+    diameter = 0
+    return getDiameter(root, diameter)[1]
+if __name__ == '__main__':
+    root = Node(1)
+    root.left = Node(2)
+    root.right = Node(3)
+    root.left.right = Node(4)
+    root.right.left = Node(5)
+    root.right.right = Node(6)
+    root.right.left.left = Node(7)
+    root.right.left.right = Node(8)
+    print("The diameter of the tree is", getBTDiameter(root))
+
+
+#QUESTION 6
+
+
+ Max Sum path from the leaf to leaf.
+ 
+ 
+#include <iostream>
+#include <climits>
+using namespace std;
+struct Node
+{
+    int data;
+    Node *left, *right;
+ 
+    Node(int data)
+    {
+        this->data = data;
+        this->left = this->right = nullptr;
+    }
+};
+int maxSumPath(Node *root, int &max_sum)
+{
+    
+    if (root == nullptr) {
+        return 0;
+    }
+    int left = maxSumPath(root->left, max_sum);
+    int right = maxSumPath(root->right, max_sum);
+    int cur_sum = left + right + root->data;
+ 
+    max_sum = max(cur_sum, max_sum);
+    if (root->left == nullptr) {
+        return right + root->data;
+    }
+    if (root->right == nullptr) {
+        return left + root->data;
+    }
+    return max(left, right) + root->data;
+}
+int maxSumPath(Node* root)
+{
+    int max_sum = INT_MIN;
+    maxSumPath(root, max_sum);
+ 
+    return max_sum;
+}
+ 
+int main()
+{
+    Node* root = nullptr;
+ 
+    root = new Node(1);
+    root->left = new Node(2);
+    root->right = new Node(3);
+    root->left->right = new Node(-4);
+    root->right->left = new Node(5);
+    root->right->right = new Node(6);
+    root->right->left->left = new Node(7);
+    root->right->left->right = new Node(8);
+ 
+    cout << maxSumPath(root) << endl;
+ 
+    return 0;
+}
+
+
+#QUESTION 7
+
+
+Connect Nodes on the same level (Hard)
+
+
+class Node:
+    def __init__(self, data, left=None, right=None):
+        self.data = data
+        self.left = left
+        self.right = right
+def printList(head):
+    while head:
+        print(head.data, end=" —> ")
+        head = head.next
+    print("None")
+def inorder(root):
+    if root is None:
+        return
+    inorder(root.left)
+    print(root.data, end=" —> ")
+    if root.next:
+        print(root.next.data)
+    else:
+        print("None")
+    inorder(root.right)
+def findNextNode(root):
+    if root is None or root.next is None:
+        return None
+    if root.next.left:
+        return root.next.left
+    if root.next.right:
+        return root.next.right
+    return findNextNode(root.next)
+def linkNodes(root, level, dict):
+    if root is None:
+        return
+    dict.setdefault(level, []).append(root)
+    linkNodes(root.left, level + 1, dict)
+    linkNodes(root.right, level + 1, dict)
+def linkNodesBT(root):
+    dict = {}
+    linkNodes(root, 1, dict)
+    for values in dict.values():
+        prev = None
+        for curr in values:
+            if prev:
+                prev.next = curr
+            prev = curr
+        prev.next = None
+ 
+if __name__ == '__main__':
+ 
+    root = Node(1)
+    root.left = Node(2)
+    root.right = Node(3)
+    root.left.left = Node(4)
+    root.left.right = Node(5)
+    root.right.right = Node(6)
+    root.left.left.right = Node(7)
+    root.right.right.left = Node(8)
+    linkNodesBT(root)
+    node = root
+    while node:
+        printList(node) 
+        if node.left:
+            node = node.left
+        elif node.right:
+            node = node.right
+        else:
+            node = findNextNode(node)
+
+
+#QUESTION 8
+
+
+Convert each level in Binary Tree to Doubly LinkedList (Hard)
+
+
+class Node:
+    def __init__(self, data, left=None, right=None):
+        self.data = data
+        self.left = left
+        self.right = right
+def printDLL(head): 
+    curr = head
+    while curr:
+        print(curr.data, end=' ')
+        curr = curr.right
+def convert(root, head):
+    if root is None:
+        return head
+    head = convert(root.left, head)
+    right = root.right
+    root.right = head
+    if head:
+        head.left = root
+    head = root
+    return convert(right, head)
+def reverse(head):
+    prev = None
+    current = head
+    while current:
+        temp = current.left
+        current.left = current.right
+        current.right = temp
+        prev = current
+        current = current.left
+    return prev
+def convertBinaryTreeToDDL(root):
+    head = None
+    head = convert(root, head)
+    head = reverse(head)
+    printDLL(head) 
+if __name__ == '__main__':
+    root = Node(1)
+    root.left = Node(2)
+    root.right = Node(3)
+    root.left.left = Node(4)
+    root.left.right = Node(5)
+    root.right.left = Node(6)
+    root.right.right = Node(7)
+    convertBinaryTreeToDDL(root)
+    
+
+#QUESTION 9
+
+
+Print root to leaf path in Binary tree
+
+
+from collections import deque
+class Node:
+    def __init__(self, data, left=None, right=None):
+        self.data = data
+        self.left = left
+        self.right = right
+def isLeaf(node):
+    return node.left is None and node.right is None
+def printRootToLeafPaths(node, path):
+    if node is None:
+        return
+    path.append(node.data)
+    if isLeaf(node):
+        print(list(path))
+    printRootToLeafPaths(node.left, path)
+    printRootToLeafPaths(node.right, path)
+    path.pop()
+def printRootToLeafPath(node):
+    path = deque()
+    printRootToLeafPaths(node, path) 
+if __name__ == '__main__':
+ 
+    root = Node(1)
+    root.left = Node(2)
+    root.right = Node(3)
+    root.left.left = Node(4)
+    root.left.right = Node(5)
+    root.right.left = Node(6)
+    root.right.right = Node(7)
+    root.right.left.left = Node(8)
+    root.right.right.right = Node(9)
+    printRootToLeafPath(root)
+    
+    
+#QUESTION 10
+
+
+ Print all nodes at K distance. 
+ 
+ 
+ class Solution {
+public:
+    map(int, []) Graph
+    int[] ans
+    
+    void buildGraph(TreeNode node, TreeNode parent) {
+        if (not node) 
+            return
+        if (not Graph.count(node.val)) {
+            if (parent) {
+                Graph[node.val].add(parent.val)
+                Graph[parent.val].add(node.val)
+            }
+            buildGraph(node.left, node)
+            buildGraph(node.right, node)
+        }
+    }
+    
+    void bfs(TreeNode target, int k) {
+        queue q
+        map <int, bool> visited
+        int depth = 0
+        if (k == 0) {
+            ans.add(target.val)
+            return
+        }
+        q.push(target.val)
+        while (not q.empty()) {
+            depth = depth + 1
+            int q_size = q.size()
+            for (int i=0 to i<q_size) {
+                int curr_node = q.front()
+                visited[curr_node] = true
+                q.pop()
+                for (int neighbour in Graph[curr_node]) {
+                    if (not visited.count(neighbour)) {
+                        if (depth == k) 
+                            ans.add(neighbour)
+                        else 
+                            q.push(neighbour)
+                    }
+                }
+            }
+            if (depth == k) 
+                return
+        }
+    }
+    
+    int[] distanceK(TreeNode root, TreeNode target, int K) {
+        buildGraph(root, nullptr)
+        bfs(target, K)
+        return ans
+    }
+}
+
+
+#QUESTION 11
+
+
+ Find Largest Subtree sum in Binary Tree
+ 
+ 
+#include <bits/stdc++.h> 
+using namespace std;  
+struct Node { 
+    int key; 
+    Node *left, *right; 
+}; 
+Node* newNode(int key) 
+{ 
+    Node* temp = new Node; 
+    temp->key = key; 
+    temp->left = temp->right = NULL; 
+    return temp; 
+} 
+int findLargestSubtreeSumUtil(Node* root, int& ans) 
+{ 
+    if (root == NULL)      
+        return 0; 
+    int currSum = root->key +  
+      findLargestSubtreeSumUtil(root->left, ans) + findLargestSubtreeSumUtil(root->right, ans); 
+    ans = max(ans, currSum);  
+    return currSum; 
+}  
+int findLargestSubtreeSum(Node* root) 
+{ 
+    if (root == NULL)      
+        return 0; 
+    int ans = INT_MIN;  
+    findLargestSubtreeSumUtil(root, ans); 
+    return ans; 
+} 
+int main() 
+{ 
+    Node* root = newNode(1); 
+    root->left = newNode(-2); 
+    root->right = newNode(3); 
+    root->left->left = newNode(4); 
+    root->left->right = newNode(5); 
+    root->right->left = newNode(-6); 
+    root->right->right = newNode(2); 
+  
+    cout << findLargestSubtreeSum(root); 
+    return 0; 
+}
+
+
+#QUESTION 12
+
+
+class Node:
+    def __init__(self, key):
+        self.key = key
+def inorderTraversal(root):
+    if root is None:
+        return
+    inorderTraversal(root.left)
+    print(root.key, end=' ')
+    inorderTraversal(root.right)
+def postorderTraversal(root):
+    if root is None:
+        return
+    postorderTraversal(root.left)
+    postorderTraversal(root.right)
+    print(root.key, end=' ')
+def construct(start, end, postorder, pIndex, dict):
+    if start > end:
+        return None, pIndex
+    root = Node(postorder[pIndex])
+    pIndex = pIndex - 1
+    index = dict[root.key]
+    root.right, pIndex = construct(index + 1, end, postorder, pIndex, dict)
+    root.left, pIndex = construct(start, index - 1, postorder, pIndex, dict)
+    return root, pIndex
+def constructTree(inorder, postorder):
+    n = len(inorder)
+    dict = {}
+    for i, e in enumerate(inorder):
+        dict[e] = i
+    pIndex = n - 1
+    return construct(0, n - 1, postorder, pIndex, dict)[0]
+ 
+ 
+if __name__ == '__main__':
+ 
+    inorder = [4, 2, 1, 7, 5, 8, 3, 6]
+    postorder = [4, 2, 7, 8, 5, 6, 3, 1]
+    root = constructTree(inorder, postorder)
+    print("Inorder traversal is ", end='')
+    inorderTraversal(root)
+    print("\nPostorder traversal is ", end='')
+    postorderTraversal(root)
+
+
+#QUESTION 13
+
+
+Check if a binary tree is a BST or not
+
+
+import sys
+class Node:
+    def __init__(self, data, left=None, right=None):
+        self.data = data
+        self.left = left
+        self.right = right
+def insert(root, key):
+    if root is None:
+        return Node(key)
+    if key < root.data:
+        root.left = insert(root.left, key)
+    else:
+        root.right = insert(root.right, key)
+    return root
+def isBST(node, minKey, maxKey):
+    if node is None:
+        return True
+    if node.data < minKey or node.data > maxKey:
+        return False
+    return isBST(node.left, minKey, node.data) and \isBST(node.right, node.data, maxKey)
+def checkForBST(root):
+    if isBST(root, -sys.maxsize, sys.maxsize):
+        print("The tree is a BST.")
+    else:
+        print("The tree is not a BST")
+def swap(root):
+    left = root.left
+    root.left = root.right
+    root.right = left
+if __name__ == '__main__':
+    root = None
+    keys = [15, 10, 20, 8, 12, 16, 25]
+    for key in keys:
+        root = insert(root, key)
+    swap(root)
+    checkForBST(root)
+ 
+
+
+
+
+ 
