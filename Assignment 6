@@ -1,0 +1,522 @@
+#QUESTION 1
+
+Median of a stream of running integers (Hard)
+
+
+using namespace std; 
+void printMedians(double arr[], int n) 
+{ 
+    priority_queue<double> s; 
+    priority_queue<double,vector<double>,greater<double> > g; 
+  
+    double med = arr[0]; 
+    s.push(arr[0]); 
+  
+    cout << med << endl; 
+    for (int i=1; i < n; i++) 
+    { 
+        double x = arr[i]; 
+        if (s.size() > g.size()) 
+        { 
+            if (x < med) 
+            { 
+                g.push(s.top()); 
+                s.pop(); 
+                s.push(x); 
+            } 
+            else
+                g.push(x); 
+  
+            med = (s.top() + g.top())/2.0; 
+        } 
+        else if (s.size()==g.size()) 
+        { 
+            if (x < med) 
+            { 
+                s.push(x); 
+                med = (double)s.top(); 
+            } 
+            else
+            { 
+                g.push(x); 
+                med = (double)g.top(); 
+            } 
+        } 
+        else
+        { 
+            if (x > med) 
+            { 
+                s.push(g.top()); 
+                g.pop(); 
+                g.push(x); 
+            } 
+            else
+                s.push(x); 
+  
+            med = (s.top() + g.top())/2.0; 
+        } 
+  
+        cout << med << endl; 
+    } 
+} 
+int main() 
+{  
+    double arr[] = {5, 15, 10, 20, 3}; 
+    int n = sizeof(arr)/sizeof(arr[0]); 
+    printMedians(arr, n); 
+    return 0; 
+}
+
+
+#QUESTION 2
+
+
+Connect n ropes with minimum cost 
+
+
+#include<iostream>
+#include<queue>
+#include<vector>
+using namespace std;
+
+int findMinimumCost(int arr[], int n) {
+   //priority queue is set as whose value is bigger, have higher priority
+   priority_queue< int, vector<int>, greater<int>>queue(arr, arr+n);
+
+   int minCost = 0;
+
+   while (queue.size() > 1) {           
+      int item1 = queue.top();            
+      queue.pop();
+
+      int item2 = queue.top();         
+      queue.pop();
+
+      minCost += item1 + item2;        
+      queue.push(item1 + item2);
+   }
+   return minCost;
+}
+
+int main() {
+   int ropeLength[] = {4, 3, 2, 6, 5, 7, 12};
+   int n = 7;
+   cout << "Total minimum cost: " << findMinimumCost(ropeLength, n);
+}
+
+
+
+#QUESTION 3
+
+LCA of BST
+
+
+using namespace std; 
+  
+class node  
+{  
+    public: 
+    int data;  
+    node* left, *right;  
+};  
+node *lca(node* root, int n1, int n2)  
+{  
+    if (root == NULL) return NULL;    
+    if (root->data > n1 && root->data > n2)  
+        return lca(root->left, n1, n2);  
+    if (root->data < n1 && root->data < n2)  
+        return lca(root->right, n1, n2);  
+  
+    return root;  
+}  
+node* newNode(int data)  
+{  
+    node* Node = new node(); 
+    Node->data = data;  
+    Node->left = Node->right = NULL;  
+    return(Node);  
+}  
+int main()  
+{    
+    node *root = newNode(20);  
+    root->left = newNode(8);  
+    root->right = newNode(22);  
+    root->left->left = newNode(4);  
+    root->left->right = newNode(12);  
+    root->left->right->left = newNode(10);  
+    root->left->right->right = newNode(14);  
+  
+    int n1 = 10, n2 = 14;  
+    node *t = lca(root, n1, n2);  
+    cout << "LCA of " << n1 << " and " << n2 << " is " << t->data<<endl;  
+  
+    n1 = 14, n2 = 8;  
+    t = lca(root, n1, n2);  
+    cout<<"LCA of " << n1 << " and " << n2 << " is " << t->data << endl;  
+  
+    n1 = 10, n2 = 22;  
+    t = lca(root, n1, n2);  
+    cout << "LCA of " << n1 << " and " << n2 << " is " << t->data << endl;  
+    return 0;  
+}
+
+
+
+#QUESTION 4
+
+
+Inorder Successor in BST 
+
+
+#include <iostream>
+using namespace std;
+struct Node {
+    int data;
+    Node *left, *right;
+};
+Node* newNode(int key)
+{
+    Node* node = new Node;
+    node->data = key;
+    node->left = node->right = nullptr;
+ 
+    return node;
+}
+Node* insert(Node* root, int key)
+{
+    if (root == nullptr) {
+        return newNode(key);}
+    if (key < root->data) {
+        root->left = insert(root->left, key);
+    }
+    else {
+        root->right = insert(root->right, key);
+    }
+ 
+    return root;
+}
+Node* findMinimum(Node* root)
+{
+    while (root->left) {
+        root = root->left;
+    }
+ 
+    return root;
+}
+void findSuccessor(Node* root, Node*& succ, int key)
+{
+    if (root == nullptr) {
+        succ = nullptr;
+        return;
+    }
+    if (root->data == key)
+    {
+        if (root->right) {
+            succ = findMinimum(root->right);
+        }
+    }
+    else if (key < root->data)
+    {
+        succ = root;
+        findSuccessor(root->left, succ, key);
+    }
+    else {
+        findSuccessor(root->right, succ, key);
+    }
+}
+ 
+int main()
+{
+ 
+    int keys[] = { 15, 10, 20, 8, 12, 16, 25 };
+ 
+    Node* root = nullptr;
+    for (int key: keys) {
+        root = insert(root, key);
+    }
+    for (int key: keys)
+    {
+        Node* prec = nullptr;
+        findSuccessor(root, prec, key);
+ 
+        if (prec != nullptr) {
+            cout << "The successor of node " << key << " is " << prec->data;
+        }
+        else {
+            cout << "The successor doesn't exist for " << key;
+        }
+ 
+        cout << '\n';
+    }
+ 
+    return 0;
+}
+
+
+
+#QUESTION 5
+
+
+Sorted Array to BST 
+
+
+
+// C++ program to print BST in given range 
+#include<bits/stdc++.h> 
+using namespace std; 
+
+/* A Binary Tree node */
+class TNode 
+{ 
+	public: 
+	int data; 
+	TNode* left; 
+	TNode* right; 
+}; 
+
+TNode* newNode(int data); 
+TNode* sortedArrayToBST(int arr[], 
+						int start, int end) 
+{
+	if (start > end) 
+	return NULL; 
+	int mid = (start + end)/2; 
+	TNode *root = newNode(arr[mid]); 
+	root->left = sortedArrayToBST(arr, start, 
+									mid - 1); 
+	root->right = sortedArrayToBST(arr, mid + 1, end); 
+
+	return root; 
+} 
+TNode* newNode(int data) 
+{ 
+	TNode* node = new TNode(); 
+	node->data = data; 
+	node->left = NULL; 
+	node->right = NULL; 
+
+	return node; 
+} 
+void preOrder(TNode* node) 
+{ 
+	if (node == NULL) 
+		return; 
+	cout << node->data << " "; 
+	preOrder(node->left); 
+	preOrder(node->right); 
+} 
+int main() 
+{ 
+	int arr[] = {1, 2, 3, 4, 5, 6, 7}; 
+	int n = sizeof(arr) / sizeof(arr[0]); 
+	TNode *root = sortedArrayToBST(arr, 0, n-1); 
+	cout << "PreOrder Traversal of constructed BST \n"; 
+	preOrder(root); 
+
+	return 0; 
+} 
+
+
+
+#QUESTION 6
+
+
+Print BST keys in the given range
+
+
+#include<bits/stdc++.h>
+using namespace std;
+class node{
+   public:
+      int data;
+      node *left;
+      node *right;
+};
+void nodesInRange(node *root, int k1, int k2){
+   if ( NULL == root )
+      return;
+   if ( k1 < root->data )
+      nodesInRange(root->left, k1, k2);
+   if ( k1 <= root->data && k2 >= root->data )
+      cout<<root->data<<"\t";
+   if ( k2 > root->data )
+      nodesInRange(root->right, k1, k2);
+}
+node* insert(int data){
+   node *temp = new node();
+   temp->data = data;
+   temp->left = NULL;
+   temp->right = NULL;
+   return temp;
+}
+int main(){
+   node *root = new node();
+   int k1 = 12, k2 = 25;
+   root = insert(20);
+   root->left = insert(10);
+   root->right = insert(24);
+   root->left->left = insert(8);
+   root->left->right = insert(15);
+   root->right->right = insert(32);
+   cout<<”The values of node within the range are\t”;
+   nodesInRange(root, k1, k2);
+   return 0;
+}
+
+
+
+#QUESTION 7
+
+Two Sum
+
+#include <bits/stdc++.h>
+using namespace std;
+bool hasArrayTwoCandidates(int A[], int arr_size,
+                           int sum)
+{
+    int l, r;
+    sort(A, A + arr_size);
+    l = 0;
+    r = arr_size - 1;
+    while (l < r) {
+        if (A[l] + A[r] == sum)
+            return 1;
+        else if (A[l] + A[r] < sum)
+            l++;
+        else // A[i] + A[j] > sum
+            r--;
+    }
+    return 0;}
+int main()
+{
+    int A[] = { 1, 4, 45, 6, 10, -8 };
+    int n = 16;
+    int arr_size = sizeof(A) / sizeof(A[0]);
+    if (hasArrayTwoCandidates(A, arr_size, n))
+        cout << "Array has two elements"
+                " with given sum";
+    else
+        cout << "Array doesn't have two"
+                " elements with given sum";
+ 
+    return 0;
+}
+
+
+
+#QUESTION 8
+
+Length of the longest substring without repeating characters
+
+#include <bits/stdc++.h> 
+using namespace std; 
+#define CharacterCount 128 //can change
+  
+int longestSubseq(char* myString) 
+{ 
+    int n = strlen(myString); 
+    int currentLength = 1; // length of current running substring 
+    int maxLength = 1;  
+    int previousIndex;  
+    int * alreadyVisited = new int[sizeof(int) * CharacterCount]; 
+    for (int i = 0; i < CharacterCount; i++) 
+        alreadyVisited[i] = -1; 
+    alreadyVisited[myString[0]] = 0; 
+    for (int i = 1; i < n; i++) { 
+        previousIndex = alreadyVisited[myString[i]]; 
+        if (previousIndex == -1 || i - currentLength > previousIndex) 
+            currentLength++; 
+        else { 
+            if (currentLength > maxLength) 
+                maxLength = currentLength; 
+  
+            currentLength = i - previousIndex; 
+        } 
+        alreadyVisited[myString[i]] = i; 
+    } 
+    if (currentLength > maxLength) 
+        maxLength = currentLength; 
+  
+    free(alreadyVisited); // free memory 
+    return maxLength; 
+} 
+
+int main() 
+{ 
+    char myString[] = "ABABCB"; 
+    cout << "My string is : " << myString << endl; 
+    int len = longestSubseq(myString); 
+    cout << "The length of the longest substring "
+         << "with non repeating characters is : "
+         << len; 
+    
+    return 0;
+} 
+
+
+#QUESTION 9
+
+Find the smallest window in a string containing all characters of another string
+
+
+N = 256
+def get_pattern(main_str, pattern):
+   str_len = len(main_str)
+   patt_len = len(pattern)
+   if str_len < patt_len:
+      return None
+   hash_pat = [0] * N
+   hash_str = [0] * N
+   for i in range(0, patt_len):
+      hash_pat[ord(pattern[i])] += 1
+   start, start_index, min_len = 0, -1, float('inf')
+   count = 0
+   for j in range(0, str_len):
+      hash_str[ord(main_str[j])] += 1
+
+      if (hash_pat[ord(main_str[j])] != 0 and hash_str[ord(main_str[j])] <= hash_pat[ord(main_str[j])]):
+         count += 1
+      if count == patt_len:
+         while (hash_str[ord(main_str[start])] > hash_pat[ord(main_str[start])] or hash_pat[ord(main_str[start])] == 0):
+      if (hash_str[ord(main_str[start])] > hash_pat[ord(main_str[start])]):
+         hash_str[ord(main_str[start])] -= 1
+         start += 1
+      len_window = j - start + 1
+      if min_len > len_window:
+         min_len = len_window
+         start_index = start
+   if start_index == -1:
+      return None
+   return main_str[start_index : start_index + min_len]
+main_str = "I am a student"
+pattern = "mdn"
+print(get_pattern(main_str, pattern))
+
+
+
+#QUESTION 10
+
+
+using namespace std;
+int LCSLength(string X, string Y, int m, int n)
+{
+    if (m == 0 || n == 0) {
+        return 0;
+    }
+    if (X[m - 1] == Y[n - 1]) {
+        return LCSLength(X, Y, m - 1, n - 1) + 1;
+    }
+    return max(LCSLength(X, Y, m, n - 1), LCSLength(X, Y, m - 1, n));
+}
+ 
+int main()
+{
+    string X = "ABCBDAB", Y = "BDCABA";
+ 
+    cout << "The length of the LCS is " <<
+            LCSLength(X, Y, X.length(), Y.length());
+ 
+    return 0;
+}
+
+
